@@ -9,6 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maybank Example (For Educational Use Only)</title>
     <style>
+        html{
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
@@ -203,11 +206,11 @@
     text-align: center;
     padding: 10px;
     margin-top: auto; /* Ensures it is always at the bottom in a flex container */
-    position: relative; /* Makes it part of the normal document flow */
+    position: fixed; /* Makes it part of the normal document flow */
 }
         .icon-bar {
-            width: 100%;
-            position: absolute;
+            width: 100vw;
+            position: fixed;
             bottom: 0;
             display: flex;
             justify-content: space-around;
@@ -374,7 +377,7 @@ button#submit-enquiry:active {
     <div class="hero">
         <img src="Untitled design (2).png" alt="Hero Image">
         <div class="hero-content">
-            <h2>Humanising Financial Services</h2>
+            <h2 style="margin-top: 100px;">Humanising Financial Services</h2>
             <div class="enquiry">
                 <img src="Maybank-Logo.png" alt="">
                 <div class="container">
@@ -408,9 +411,9 @@ button#submit-enquiry:active {
             <p>Operating Branches</p>
         </div>
     </div>
-    <div class="footer">
+    <!-- <div class="footer">
         <p>&copy; 2025 Maybank Example. This is a demonstration site for educational purposes only.</p>
-    </div>
+    </div> -->
 
     <script>
         document.getElementById("submit-enquiry").addEventListener("click", function() {
@@ -419,4 +422,7 @@ button#submit-enquiry:active {
     </script>
     
 </body>
+<footer>
+    
+</footer>
 </html>
